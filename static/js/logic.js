@@ -31,16 +31,16 @@ var myMap = L.map("map", {
     layers: satellite
 });
 
-// Perform a GET request to the query URL
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(data) {
+// link to data
+var earthquake_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
-    function onEachFeature(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place + "</h3> <hr> <p>" + new Date(feature.properties.time) + "</p> <hr> <p> Magnitude: " + feature.properties.mag + "</p>")
-    };
+// Perform a GET request to the earthquake url
+d3.json(earthquake_url, function(data) {
 
+    // Function to define style for each earthquake
     function getStyle(feature) {
         return {
-            opacity: 0.7,
+            opacity: 0.8,
             fillOpacity: 0.5,
             color: "black",
             fillColor: getColor(feature.properties.mag),
@@ -49,6 +49,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
         };
     }
 
+    // Function to define color for each earthquake
     function getColor(mag) {
         switch (true) {
             case mag > 5:
@@ -66,10 +67,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
         }
     };
     
+    // Function to define cirlce radius for each earthquake
     function getRadius(mag) {
         return mag * 5;
     };
 
+    // Prepare eathquake layer
     var earthquakes = L.geoJson(data, {
         
         pointToLayer: function(feature, latlng) {
@@ -110,7 +113,6 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
         var div = L.DomUtil.create("div", "legend");
         var limits = [0, 1, 2, 3, 4, 5];
         var colors = ["#2c99ea", "#2ceabf", "#92ea2c", "#d5ea2c","#eaa92c", "#ea2c2c"];
-        var labels = [];
 
         div.innerHTML = "<h3>Magnitude</h3>" +
         "<div class=\"labels\">" +
@@ -127,6 +129,4 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
     // Add legend to the map
     legend.addTo(myMap);
-
-
 });
