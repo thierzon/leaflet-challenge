@@ -8,3 +8,30 @@ body,
 html {
   height: 100%;
 }
+
+.legend {
+  padding: 6px 8px;
+  font: 12px Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #555;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.legend li {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 36px;
+  height: 20px;
+  list-style-type: none;
+}
+
+.legend .limit {
+  float: right;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 3px;
+  padding-right: 3px;
+}

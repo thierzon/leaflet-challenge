@@ -11,7 +11,7 @@ var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
 var grayscale = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
-    id: "dark-v10",
+    id: "light-v10",
     accessToken: API_KEY
 });
 
@@ -103,5 +103,30 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap)
-    
+
+    // Setup the legend
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "legend");
+        var limits = [0, 1, 2, 3, 4, 5];
+        var colors = ["#2c99ea", "#2ceabf", "#92ea2c", "#d5ea2c","#eaa92c", "#ea2c2c"];
+        var labels = [];
+
+        div.innerHTML = "<h3>Magnitude</h3>" +
+        "<div class=\"labels\">" +
+            "<div class=\"limit\">" + limits[0] + " - " + limits[1] + "</div>" + "<li style=\"background-color: " + colors[0] + "\"></li>" +
+            "<div class=\"limit\">" + limits[1] + " - " + limits[2] + "</div>" + "<li style=\"background-color: " + colors[1] + "\"></li>" +
+            "<div class=\"limit\">" + limits[2] + " - " + limits[3] + "</div>" + "<li style=\"background-color: " + colors[2] + "\"></li>" +
+            "<div class=\"limit\">" + limits[3] + " - " + limits[4] + "</div>" + "<li style=\"background-color: " + colors[3] + "\"></li>" +
+            "<div class=\"limit\">" + limits[4] + " - " + limits[5] + "</div>" + "<li style=\"background-color: " + colors[4] + "\"></li>" +
+            "<div class=\"limit\">" + limits[5] + " + </div>" + "<li style=\"background-color: " + colors[5] + "\"></li>" +
+        "</div>";
+
+        return div;
+    };
+
+    // Add legend to the map
+    legend.addTo(myMap);
+
+
 });
